@@ -58,7 +58,7 @@ const swaggerSpec = swaggerJsdoc(swaggerOptions);
 const app = express();
 app.use(express.json());
 app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerSpec));
-app.use('/books', require('./src/routes/book_routes'));
+app.use('/books', require('./routes/book_routes'));
 module.exports = app;
 EOF
 ```
