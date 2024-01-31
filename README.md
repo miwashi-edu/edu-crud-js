@@ -340,7 +340,9 @@ class Book:
         self.author = author
 
 response = requests.get('http://localhost:3000/books')
-# response is a data dictionary ** is an unpack operator and renders the dictionary to id=123, title='My Book', author='John Doe' which you can pass to Book()
+# response is a data dictionary ** is an unpack operator.
+# It renders the dictionary to id=123, title='My Book', author='John Doe' which you can pass to Book()
+# So the code below can be read as Book(id=123, title='My Book', author='John Doe')
 books = [Book(**book_data) for book_data in response.json()]
 for book in books:
     print(f'ID: {book.id}, Title: {book.title}, Author: {book.author}')
