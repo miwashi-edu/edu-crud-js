@@ -205,17 +205,101 @@ info:
   title: "Books API"
   description: "API for managing books"
   version: "1.0.0"
-host: "localhost:5000"
+host: "localhost:3000"
 basePath: "/"
 schemes:
   - "http"
+
 paths:
   /books:
     get:
       summary: "List all books"
+      description: "Retrieve a list of all books"
       responses:
         200:
           description: "A list of books"
+          schema:
+            type: "array"
+            items:
+              $ref: "#/definitions/Book"
+    post:
+      summary: "Create a new book"
+      description: "Add a new book to the collection"
+      parameters:
+        - in: "body"
+          name: "book"
+          description: "Book to add"
+          required: true
+          schema:
+            $ref: "#/definitions/Book"
+      responses:
+        201:
+          description: "Book created"
+
+  /books/{book_id}:
+    get:
+      summary: "Get a book by ID"
+      description: "Retrieve a book by its ID"
+      parameters:
+        - in: "path"
+          name: "book_id"
+          type: "integer"
+          required: true
+          description: "ID of the book to retrieve"
+      responses:
+        200:
+          description: "Desired book"
+          schema:
+            $ref: "#/definitions/Book"
+    put:
+      summary: "Update a book"
+      description: "Update details of a book by its ID"
+      parameters:
+        - in: "path"
+          name: "book_id"
+          type: "integer"
+          required: true
+          description: "ID of the book to update"
+        - in: "body"
+          name: "book"
+          required: true
+          description: "Updated details of the book"
+          schema:
+            $ref: "#/definitions/Book"
+      responses:
+        200:
+          description: "Book updated"
+    delete:
+      summary: "Delete a book"
+      description: "Delete a book by its ID"
+      parameters:
+        - in: "path"
+          name: "book_id"
+          type: "integer"
+          required: true
+          description: "ID of the book to delete"
+      responses:
+        204:
+          description: "Book deleted"
+
+definitions:
+  Book:
+    type: "object"
+    required:
+      - "title"
+      - "author"
+    properties:
+      id:
+        type: "integer"
+        format: "int64"
+      title:
+        type: "string"
+      author:
+        type: "string"
+      description:
+        type: "string"
+      publishedYear:
+        type: "integer"
 EOF
 ```
 
