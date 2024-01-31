@@ -6,6 +6,7 @@
 ```bash
 pip3 install Flask
 pip3 install flask-swagger-ui
+pip3 install requests
 cd ~
 cd ws
 mkdir crud-js-flask
