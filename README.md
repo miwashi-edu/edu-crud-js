@@ -10,46 +10,57 @@ cd ~
 cd ws
 mkdir crud-js-flask
 cd crud-js-flask
-mkdir -p ./src/{static,controllers,domain}
-touch ./src/{server.py,controllers/book_controller.py,domain/books.py}
+mkdir ./{static,controllers,domain}
+touch ./{server.py,controllers/book_controller.py,domain/books.py}
+touch ./{controllers/__init__.py,domain/__init__.py}
 #python3 -m venv venv
-source venv/bin/activate
+#source venv/bin/activate
 echo "Flask" > requirements.txt
+echo "flask-swagger-ui" >> requirements.txt
 ```
 
 ## ./src/server.js
 
 ```bash
-cat > ./src/server.py << 'EOF'
+cd ~
+cd ws
+cd crud-js-flask
+cat > ./server.py << 'EOF'
 from flask import Flask, jsonify, request
-from src.controllers import book_controller
+from controllers import book_controller
 
 app = Flask(__name__)
+
 
 # Route to list all books
 @app.route('/books', methods=['GET'])
 def list_all_books():
     return jsonify(book_controller.list_all_books())
 
+
 # Route to get a book by ID
 @app.route('/books/<int:book_id>', methods=['GET'])
 def get_book_by_id(book_id):
     return book_controller.get_book_by_id(book_id)
+
 
 # Route to create a new book
 @app.route('/books', methods=['POST'])
 def create_book():
     return book_controller.create_book(request.json)
 
+
 # Route to update a book
 @app.route('/books/<int:book_id>', methods=['PUT'])
 def update_book(book_id):
     return book_controller.update_book(book_id, request.json)
 
+
 # Route to delete a book
 @app.route('/books/<int:book_id>', methods=['DELETE'])
 def delete_book(book_id):
     return book_controller.delete_book(book_id)
+
 
 if __name__ == '__main__':
     app.run(debug=True, port=3000)
@@ -59,11 +70,17 @@ EOF
 ## ./src/controllers/book_controller.py
 
 ```bash
-cat > ./src/controllers/book_controller.py << 'EOF'
-from src.domain import books
+
+cd ~
+cd ws
+cd crud-js-flask
+cat > ./controllers/book_controller.py << 'EOF'
+from domain import books
+
 
 def list_all_books():
     return books.list_all_books(), 200
+
 
 def get_book_by_id(book_id):
     book = books.get_book_by_id(book_id)
@@ -72,9 +89,11 @@ def get_book_by_id(book_id):
     else:
         return {'message': 'Book not found'}, 404
 
+
 def create_book(book_data):
     new_book = books.create_book(book_data)
     return new_book, 201
+
 
 def update_book(book_id, book_data):
     updated_book = books.update_book(book_id, book_data)
@@ -83,6 +102,7 @@ def update_book(book_id, book_data):
     else:
         return {'message': 'Book not found'}, 404
 
+
 def delete_book(book_id):
     deleted_book = books.delete_book(book_id)
     if deleted_book:
@@ -90,13 +110,18 @@ def delete_book(book_id):
     else:
         return {'message': 'Book not found'}, 404
 
+
 EOF
 ```
 
 ## ./src/domain/books.py
 
 ```bash
-cat > ./src/domain/books.py << 'EOF'
+
+cd ~
+cd ws
+cd crud-js-flask
+cat > ./domain/books.py << 'EOF'
 class Book:
     def __init__(self, id, title, author):
         self.id = id
@@ -112,17 +137,22 @@ books_db = [
 def list_all_books():
     return [book.__dict__ for book in books_db]
 
+
 def get_book_by_id(book_id):
     for book in books_db:
         if book.id == book_id:
             return book.__dict__
     return None
 
+
+
 def create_book(book_data):
     new_book_id = max(book.id for book in books_db) + 1
     new_book = Book(new_book_id, book_data['title'], book_data['author'])
     books_db.append(new_book)
     return new_book.__dict__
+
+
 
 def update_book(book_id, book_data):
     for book in books_db:
@@ -131,6 +161,8 @@ def update_book(book_id, book_data):
             book.author = book_data.get('author', book.author)
             return book.__dict__
     return None
+
+
 
 def delete_book(book_id):
     global books_db
@@ -145,6 +177,10 @@ EOF
 ## ./static/swagger.yaml
 
 ```bash
+
+cd ~
+cd ws
+cd crud-js-flask
 cat > ./static/swagger.yaml << 'EOF'
 swagger: "2.0"
 info:
@@ -164,3 +200,11 @@ paths:
           description: "A list of books"
 EOF
 ```
+
+## Test it
+
+```
+http://localhost:3000/books
+```
+
+
