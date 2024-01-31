@@ -321,13 +321,15 @@ curl -X DELETE http://localhost:3000/books/1
 
 ```
 
-## list_books.py
+## list_books
 
 ```bash
 cd ~
 cd ws
 cd crud-js-flask
-cat > list_books.py << EOF
+echo '#!'"$(which python3)" >  list_books
+chmod +x list_books
+cat >> list_books << EOF
 import requests
 
 class Book:
@@ -343,13 +345,15 @@ for book in books:
 EOF
 ```
 
-## get_book.py
+## get_book
 
 ```bash
 cd ~
 cd ws
 cd crud-js-flask
-cat > get_book.py << EOF
+echo '#!'"$(which python3)" >  get_book
+chmod +x get_book
+cat >> get_book << EOF
 import requests
 
 class Book:
@@ -366,13 +370,15 @@ print(f'ID: {book.id}, Title: {book.title}, Author: {book.author}')
 EOF
 ```
 
-## create_book.py
+## create_book
 
 ```bash
 cd ~
 cd ws
 cd crud-js-flask
-cat > create_book.py << EOF
+echo '#!'"$(which python3)" >  create_book
+chmod +x create_book
+cat >> create_book << EOF
 import requests
 import json
 
@@ -394,13 +400,15 @@ print(response.json())
 EOF
 ```
 
-## update_book.py
+## update_book
 
 ```bash
 cd ~
 cd ws
 cd crud-js-flask
-cat > update_book.py << EOF
+echo '#!'"$(which python3)" >  update_book
+chmod +x update_book
+cat >> update_book << EOF
 import requests
 import json
 
@@ -423,13 +431,15 @@ print(response.json())
 EOF
 ```
 
-## delete_book.py
+## delete_book
 
 ```bash
 cd ~
 cd ws
 cd crud-js-flask
-cat > delete_book.py << EOF
+echo '#!'"$(which python3)" >  delete_book
+chmod +x delete_book
+cat >> delete_book << EOF
 import requests
 
 class Book:
