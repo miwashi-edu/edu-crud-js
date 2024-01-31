@@ -88,7 +88,6 @@ EOF
 ## ./src/controllers/book_controller.py
 
 ```bash
-
 cd ~
 cd ws
 cd crud-js-flask
@@ -134,7 +133,6 @@ EOF
 ## ./src/domain/books.py
 
 ```bash
-
 cd ~
 cd ws
 cd crud-js-flask
@@ -194,7 +192,6 @@ EOF
 ## ./static/swagger.yaml
 
 ```bash
-
 cd ~
 cd ws
 cd crud-js-flask
@@ -324,4 +321,125 @@ curl -X DELETE http://localhost:3000/books/1
 
 ```
 
+## list_books.py
 
+```bash
+cd ~
+cd ws
+cd crud-js-flask
+cat > list_books.py << EOF
+import requests
+
+class Book:
+    def __init__(self, id, title, author):
+        self.id = id
+        self.title = title
+        self.author = author
+
+response = requests.get('http://localhost:3000/books')
+books = [Book(**book_data) for book_data in response.json()]
+for book in books:
+    print(f'ID: {book.id}, Title: {book.title}, Author: {book.author}')
+EOF
+```
+
+## get_book.py
+
+```bash
+cd ~
+cd ws
+cd crud-js-flask
+cat > get_book.py << EOF
+import requests
+
+class Book:
+    def __init__(self, id, title, author):
+        self.id = id
+        self.title = title
+        self.author = author
+
+book_id = input("Enter book ID: ")
+response = requests.get(f'http://localhost:3000/books/{book_id}')
+book_data = response.json()
+book = Book(**book_data)
+print(f'ID: {book.id}, Title: {book.title}, Author: {book.author}')
+EOF
+```
+
+## create_book.py
+
+```bash
+cd ~
+cd ws
+cd crud-js-flask
+cat > create_book.py << EOF
+import requests
+import json
+
+class Book:
+    def __init__(self, id, title, author):
+        self.id = id
+        self.title = title
+        self.author = author
+
+title = input("Enter book title: ")
+author = input("Enter author name: ")
+
+book = Book(None, title, author)  # ID is None for new book
+book_data = json.dumps(book.__dict__)
+headers = {'Content-Type': 'application/json'}
+
+response = requests.post('http://localhost:3000/books', data=book_data, headers=headers)
+print(response.json())
+EOF
+```
+
+## update_book.py
+
+```bash
+cd ~
+cd ws
+cd crud-js-flask
+cat > update_book.py << EOF
+import requests
+import json
+
+class Book:
+    def __init__(self, id, title, author):
+        self.id = id
+        self.title = title
+        self.author = author
+
+book_id = input("Enter book ID to update: ")
+title = input("Enter new title: ")
+author = input("Enter new author: ")
+
+book = Book(book_id, title, author)
+book_data = json.dumps(book.__dict__)
+headers = {'Content-Type': 'application/json'}
+
+response = requests.put(f'http://localhost:3000/books/{book_id}', data=book_data, headers=headers)
+print(response.json())
+EOF
+```
+
+## delete_book.py
+
+```bash
+cd ~
+cd ws
+cd crud-js-flask
+cat > delete_book.py << EOF
+import requests
+
+class Book:
+    def __init__(self, id, title, author):
+        self.id = id
+        self.title = title
+        self.author = author
+
+book_id = input("Enter book ID to delete: ")
+response = requests.delete(f'http://localhost:3000/books/{book_id}')
+print(response.json())
+EOF
+```
