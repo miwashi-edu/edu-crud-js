@@ -20,7 +20,7 @@ echo "Flask" > requirements.txt
 echo "flask-swagger-ui" >> requirements.txt
 ```
 
-## ./src/server.js
+## ./server.js
 
 ```bash
 cd ~
@@ -86,7 +86,7 @@ if __name__ == '__main__':
 EOF
 ```
 
-## ./src/controllers/book_controller.py
+## ./controllers/book_controller.py
 
 ```bash
 cd ~
@@ -131,7 +131,7 @@ def delete_book(book_id):
 EOF
 ```
 
-## ./src/domain/books.py
+## ./domain/books.py
 
 ```bash
 cd ~
